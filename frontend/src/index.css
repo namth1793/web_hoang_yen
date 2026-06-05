@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+    color: #333;
+    font-size: 14px;
+    background-color: #fff;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+    font-weight: 700;
+  }
+}
+
+.hero-title {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.hero-desc {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+@layer components {
+  /* Coffee brown primary */
+  .btn-primary {
+    @apply bg-[#4A2C17] hover:bg-[#2E1A0D] text-white px-5 py-2.5 font-semibold transition-colors duration-200 inline-block text-sm;
+  }
+  /* Orange accent */
+  .btn-orange {
+    @apply bg-[#E07820] hover:bg-[#B85E0A] text-white px-5 py-2.5 font-semibold transition-colors duration-200 inline-block text-sm;
+  }
+  /* Section heading with orange underline */
+  .section-heading {
+    @apply text-[#4A2C17] font-bold text-lg uppercase mb-3 pb-2 border-b-2 border-[#E07820];
+  }
+  .section-heading.center {
+    @apply inline-block;
+  }
+  /* Nav link style */
+  .nav-link {
+    @apply text-white text-sm font-semibold px-3 py-3.5 hover:bg-[#2E1A0D] transition-colors whitespace-nowrap;
+  }
+  .nav-link.active {
+    @apply bg-[#2E1A0D];
+  }
+}
+
+/* Swiper */
+.swiper-pagination-bullet-active {
+  background: #E07820 !important;
+}
+.swiper-pagination-bullet {
+  background: rgba(255,255,255,0.7) !important;
+  opacity: 1 !important;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff !important;
+  background: rgba(74,44,23,0.5);
+  width: 36px !important;
+  height: 60px !important;
+  border-radius: 0;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f5efe8; }
+::-webkit-scrollbar-thumb { background: #4A2C17; border-radius: 3px; }
+
+/* News link */
+.news-link::before {
+  content: '›';
+  color: #E07820;
+  margin-right: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
