@@ -7,7 +7,7 @@
 # Thay RAILWAY_URL bằng URL thực sau khi deploy Railway
 [[redirects]]
   from   = "/api/*"
-  to     = "https://RAILWAY_URL.up.railway.app/api/:splat"
+  to     = "https://webhoangyen-production.up.railway.app/api/:splat"
   status = 200
   force  = true
 
