@@ -16,13 +16,13 @@ if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
 
 const dbPath = path.join(dataDir, 'xnk.db')
 
-// Detect schema version – if name_en column is missing, rebuild
+// Detect schema version – if moisture column is missing, rebuild
 let needsReseed = false
 if (fs.existsSync(dbPath)) {
   try {
     const _check = new Database(dbPath)
     const cols = _check.prepare("PRAGMA table_info(products)").all()
-    if (!cols.find(c => c.name === 'name_en')) needsReseed = true
+    if (!cols.find(c => c.name === 'moisture')) needsReseed = true
     _check.close()
     if (needsReseed) fs.unlinkSync(dbPath)
   } catch (e) {
@@ -61,6 +61,17 @@ if (!fs.existsSync(dbPath)) {
 
 const db = new Database(dbPath)
 
+// Resend setup
+let resendClient = null
+if (process.env.RESEND_API_KEY) {
+  try {
+    const { Resend } = require('resend')
+    resendClient = new Resend(process.env.RESEND_API_KEY)
+  } catch (e) {
+    console.warn('Resend not available:', e.message)
+  }
+}
+
 // ─── PUBLIC ROUTES ────────────────────────────────────────
 
 app.get('/api/content/:page', (req, res) => {
@@ -78,7 +89,7 @@ app.get('/api/products', (req, res) => {
     query += ' WHERE category = ?'
     params.push(category)
   }
-  query += ' ORDER BY created_at DESC'
+  query += ' ORDER BY created_at ASC'
   if (limit) {
     query += ' LIMIT ?'
     params.push(parseInt(limit))
@@ -123,7 +134,7 @@ app.get('/api/banners', (req, res) => {
   res.json(db.prepare('SELECT * FROM banners ORDER BY sort_order').all())
 })
 
-app.post('/api/contacts', (req, res) => {
+app.post('/api/contacts', async (req, res) => {
   const { name, email, phone, company, subject, message } = req.body
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Vui lòng điền đầy đủ thông tin bắt buộc' })
@@ -131,6 +142,44 @@ app.post('/api/contacts', (req, res) => {
   const result = db.prepare(
     'INSERT INTO contacts (name, email, phone, company, subject, message) VALUES (?, ?, ?, ?, ?, ?)'
   ).run(name, email, phone || '', company || '', subject || '', message)
+
+  // Send email notification via Resend
+  if (resendClient) {
+    try {
+      await resendClient.emails.send({
+        from: 'ARTOCA Website <onboarding@resend.dev>',
+        to: ['artocavn@gmail.com'],
+        subject: `[ARTOCA] Liên hệ mới từ ${name}`,
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+            <div style="background:#4A2C17;padding:20px;text-align:center;">
+              <h2 style="color:#fff;margin:0;">ARTOCA Import Export</h2>
+              <p style="color:#E07820;margin:5px 0 0;">Liên hệ mới từ website</p>
+            </div>
+            <div style="padding:24px;background:#fff;border:1px solid #e5e7eb;">
+              <table style="width:100%;border-collapse:collapse;">
+                <tr><td style="padding:8px 0;color:#6b7280;width:120px;">Họ tên:</td><td style="padding:8px 0;font-weight:600;">${name}</td></tr>
+                <tr><td style="padding:8px 0;color:#6b7280;">Email:</td><td style="padding:8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+                <tr><td style="padding:8px 0;color:#6b7280;">Điện thoại:</td><td style="padding:8px 0;">${phone || 'N/A'}</td></tr>
+                <tr><td style="padding:8px 0;color:#6b7280;">Công ty:</td><td style="padding:8px 0;">${company || 'N/A'}</td></tr>
+                <tr><td style="padding:8px 0;color:#6b7280;">Chủ đề:</td><td style="padding:8px 0;">${subject || 'N/A'}</td></tr>
+              </table>
+              <div style="margin-top:16px;padding:16px;background:#FBF5EF;border-left:4px solid #E07820;border-radius:4px;">
+                <p style="color:#6b7280;margin:0 0 8px;font-size:13px;">Nội dung:</p>
+                <p style="margin:0;">${message.replace(/\n/g, '<br>')}</p>
+              </div>
+            </div>
+            <div style="padding:12px;text-align:center;background:#f9fafb;color:#9ca3af;font-size:12px;">
+              ARTOCA Import Export Co., Ltd | artocavn@gmail.com
+            </div>
+          </div>
+        `
+      })
+    } catch (e) {
+      console.error('Resend error:', e.message)
+    }
+  }
+
   res.json({ success: true, id: result.lastInsertRowid })
 })
 

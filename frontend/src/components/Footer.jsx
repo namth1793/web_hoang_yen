@@ -10,10 +10,10 @@ const T = {
     company: 'CÔNG TY',
     contact_lbl: 'LIÊN HỆ',
     products_list: [
-      ['Quế (Cinnamon)', '/san-pham/que'],
-      ['Hồi (Star Anise)', '/san-pham/hoi'],
-      ['Gừng (Ginger)', '/san-pham/gung'],
-      ['Nghệ (Turmeric)', '/san-pham/nghe'],
+      ['Quế', '/san-pham?category=que'],
+      ['Hồi', '/san-pham?category=hoi'],
+      ['Gừng', '/san-pham?category=gung'],
+      ['Nghệ', '/san-pham?category=nghe'],
     ],
     company_list: [
       ['Giới Thiệu', '/gioi-thieu'],
@@ -33,10 +33,10 @@ const T = {
     company: 'COMPANY',
     contact_lbl: 'CONTACT',
     products_list: [
-      ['Cinnamon (Quế)', '/san-pham/que'],
-      ['Star Anise (Hồi)', '/san-pham/hoi'],
-      ['Ginger (Gừng)', '/san-pham/gung'],
-      ['Turmeric (Nghệ)', '/san-pham/nghe'],
+      ['Cinnamon', '/san-pham?category=que'],
+      ['Star Anise', '/san-pham?category=hoi'],
+      ['Ginger', '/san-pham?category=gung'],
+      ['Turmeric', '/san-pham?category=nghe'],
     ],
     company_list: [
       ['About Us', '/gioi-thieu'],
@@ -76,7 +76,7 @@ export default function Footer() {
               <p className="text-xs text-gray-400 leading-relaxed mb-4">{t.tagline}</p>
               <p className="text-xs text-gray-400 mb-2">{t.follow}</p>
               <div className="flex gap-2">
-                <a href="https://wa.me/+84986768378" target="_blank" rel="noreferrer"
+                <a href="https://wa.me/84986768378" target="_blank" rel="noreferrer"
                   className="w-8 h-8 bg-[#25D366] rounded flex items-center justify-center hover:opacity-80 transition-opacity">
                   <FaWhatsapp size={14} color="white" />
                 </a>
@@ -84,7 +84,7 @@ export default function Footer() {
                   className="w-8 h-8 bg-[#0a66c2] rounded flex items-center justify-center hover:opacity-80 transition-opacity">
                   <FaLinkedin size={14} color="white" />
                 </a>
-                <a href="mailto:Artocavn@gmail.com"
+                <a href="mailto:artocavn@gmail.com"
                   className="w-8 h-8 bg-[#E07820] rounded flex items-center justify-center hover:opacity-80 transition-opacity">
                   <FiMail size={14} color="white" />
                 </a>
@@ -129,11 +129,11 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center gap-2">
                   <FiPhone className="text-[#E07820] shrink-0" size={12} />
-                  <a href="https://wa.me/+84986768378" className="hover:text-white transition-colors">+84 986 768 378</a>
+                  <a href="https://wa.me/84986768378" className="hover:text-white transition-colors">+84 986 768 378</a>
                 </div>
                 <div className="flex items-center gap-2">
                   <FiMail className="text-[#E07820] shrink-0" size={12} />
-                  <a href="mailto:Artocavn@gmail.com" className="hover:text-white transition-colors">Artocavn@gmail.com</a>
+                  <a href="mailto:artocavn@gmail.com" className="hover:text-white transition-colors">artocavn@gmail.com</a>
                 </div>
                 <div className="flex items-center gap-2">
                   <FiClock className="text-[#E07820] shrink-0" size={12} />

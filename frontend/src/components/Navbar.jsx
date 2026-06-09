@@ -22,10 +22,10 @@ const T = {
       {
         label: 'SẢN PHẨM', to: '/san-pham',
         children: [
-          { label: '🌿 Quế (Cinnamon)', to: '/san-pham/que' },
-          { label: '⭐ Hồi (Star Anise)', to: '/san-pham/hoi' },
-          { label: '🫚 Gừng (Ginger)', to: '/san-pham/gung' },
-          { label: '🟡 Nghệ (Turmeric)', to: '/san-pham/nghe' },
+          { label: 'Quế', to: '/san-pham?category=que' },
+          { label: 'Hồi', to: '/san-pham?category=hoi' },
+          { label: 'Gừng', to: '/san-pham?category=gung' },
+          { label: 'Nghệ', to: '/san-pham?category=nghe' },
         ]
       },
       {
@@ -58,10 +58,10 @@ const T = {
       {
         label: 'PRODUCTS', to: '/san-pham',
         children: [
-          { label: '🌿 Cinnamon (Quế)', to: '/san-pham/que' },
-          { label: '⭐ Star Anise (Hồi)', to: '/san-pham/hoi' },
-          { label: '🫚 Ginger (Gừng)', to: '/san-pham/gung' },
-          { label: '🟡 Turmeric (Nghệ)', to: '/san-pham/nghe' },
+          { label: 'Cinnamon', to: '/san-pham?category=que' },
+          { label: 'Star Anise', to: '/san-pham?category=hoi' },
+          { label: 'Ginger', to: '/san-pham?category=gung' },
+          { label: 'Turmeric', to: '/san-pham?category=nghe' },
         ]
       },
       {
@@ -121,7 +121,7 @@ export default function Navbar() {
               </div>
               <div>
                 <div className="text-[10px] text-gray-400 uppercase font-semibold tracking-wider leading-none">{t.hotline}</div>
-                <a href="https://wa.me/+84986768378" className="font-bold text-sm leading-tight hover:text-[#E07820] transition-colors">+84 986 768 378</a>
+                <a href="https://wa.me/84986768378" className="font-bold text-sm leading-tight hover:text-[#E07820] transition-colors">+84 986 768 378</a>
               </div>
             </div>
 
@@ -129,15 +129,15 @@ export default function Navbar() {
             <div className="flex items-center border border-gray-300 rounded overflow-hidden text-xs font-bold">
               <button
                 onClick={() => setLang('vi')}
-                className={`px-2.5 py-1.5 flex items-center gap-1 transition-colors ${lang === 'vi' ? 'bg-[#4A2C17] text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`px-3 py-1.5 transition-colors ${lang === 'vi' ? 'bg-[#4A2C17] text-white' : 'text-gray-600 hover:bg-gray-50'}`}
               >
-                <span>🇻🇳</span> VI
+                VI
               </button>
               <button
                 onClick={() => setLang('en')}
-                className={`px-2.5 py-1.5 flex items-center gap-1 transition-colors border-l border-gray-300 ${lang === 'en' ? 'bg-[#4A2C17] text-white' : 'text-gray-600 hover:bg-gray-50'}`}
+                className={`px-3 py-1.5 transition-colors border-l border-gray-300 ${lang === 'en' ? 'bg-[#4A2C17] text-white' : 'text-gray-600 hover:bg-gray-50'}`}
               >
-                <span>🇬🇧</span> EN
+                EN
               </button>
             </div>
 

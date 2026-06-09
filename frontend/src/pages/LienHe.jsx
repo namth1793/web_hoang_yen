@@ -1,20 +1,25 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { FiClock, FiMail, FiMapPin, FiPhone, FiSend } from 'react-icons/fi'
+import { FiClock, FiMail, FiMapPin, FiPhone, FiSend, FiExternalLink } from 'react-icons/fi'
 import { FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import { useLanguage } from '../context/LanguageContext'
+
+const WA_URL = 'https://wa.me/84986768378'
+const MAPS_HQ = 'https://www.google.com/maps/search/?api=1&query=41+ng%C3%B5+190+Ho%C3%A0ng+Mai+H%C3%A0+N%E1%BB%99i+Vi%E1%BB%87t+Nam'
+const MAPS_FACTORY = 'https://www.google.com/maps/search/?api=1&query=Th%E1%BB%8B+tr%E1%BA%A5n+M%E1%BA%ADu+A+L%C3%A0o+Cai+Vi%E1%BB%87t+Nam'
+const MAPS_EMBED = 'https://maps.google.com/maps?q=Ho%C3%A0ng+Mai%2C+H%C3%A0+N%E1%BB%99i%2C+Vi%E1%BB%87t+Nam&t=&z=15&ie=UTF8&iwloc=&output=embed'
 
 const T = {
   vi: {
     title: 'Liên Hệ Với Chúng Tôi',
     home: 'Trang chủ',
     cards: [
-      { icon: 'mappin', title: 'Trụ sở', lines: ['Số 41, ngõ 190 đường Hoàng Mai', 'Hà Nội, Việt Nam'] },
-      { icon: 'factory', title: 'Xưởng sản xuất', lines: ['TT Mậu A, Lào Cai', 'Việt Nam'] },
-      { icon: 'phone', title: 'Hotline / WhatsApp', lines: ['+84 986 768 378'] },
-      { icon: 'mail', title: 'Email', lines: ['Artocavn@gmail.com'] },
-      { icon: 'clock', title: 'Giờ làm việc', lines: ['Thứ 2 – Thứ 7', '8:00 – 17:30'] },
+      { icon: 'mappin', title: 'Trụ sở chính', lines: ['Số 41, ngõ 190 đường Hoàng Mai', 'Hà Nội, Việt Nam'], link: MAPS_HQ },
+      { icon: 'factory', title: 'Xưởng sản xuất', lines: ['TT Mậu A, Lào Cai', 'Việt Nam'], link: MAPS_FACTORY },
+      { icon: 'phone', title: 'Hotline / WhatsApp', lines: ['+84 986 768 378'], link: WA_URL },
+      { icon: 'mail', title: 'Email', lines: ['artocavn@gmail.com'], link: 'mailto:artocavn@gmail.com' },
+      { icon: 'clock', title: 'Giờ làm việc', lines: ['Thứ 2 – Thứ 7', '8:00 – 17:30'], link: null },
     ],
     form_title: 'Gửi Yêu Cầu Hợp Tác',
     name_lbl: 'Họ và tên *', name_ph: 'Nguyễn Văn A',
@@ -28,6 +33,7 @@ const T = {
     send_another: 'Gửi yêu cầu khác',
     error_msg: 'Có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ trực tiếp.',
     map_title: 'Vị Trí Công Ty',
+    view_map: 'Xem bản đồ lớn',
     contact_info_title: 'Thông tin liên hệ',
     follow: 'Theo dõi chúng tôi',
     cta_title: 'Sẵn sàng hợp tác xuất khẩu?',
@@ -38,11 +44,11 @@ const T = {
     title: 'Contact Us',
     home: 'Home',
     cards: [
-      { icon: 'mappin', title: 'Head Office', lines: ['No.41, alley 190, Hoang Mai road', 'Hanoi, Vietnam'] },
-      { icon: 'factory', title: 'Factory', lines: ['Mau A town, Lao Cai Province', 'Vietnam'] },
-      { icon: 'phone', title: 'Hotline / WhatsApp', lines: ['+84 986 768 378'] },
-      { icon: 'mail', title: 'Email', lines: ['Artocavn@gmail.com'] },
-      { icon: 'clock', title: 'Working Hours', lines: ['Monday – Saturday', '8:00am – 5:30pm'] },
+      { icon: 'mappin', title: 'Head Office', lines: ['No.41, alley 190, Hoang Mai road', 'Hanoi, Vietnam'], link: MAPS_HQ },
+      { icon: 'factory', title: 'Factory', lines: ['Mau A town, Lao Cai Province', 'Vietnam'], link: MAPS_FACTORY },
+      { icon: 'phone', title: 'Hotline / WhatsApp', lines: ['+84 986 768 378'], link: WA_URL },
+      { icon: 'mail', title: 'Email', lines: ['artocavn@gmail.com'], link: 'mailto:artocavn@gmail.com' },
+      { icon: 'clock', title: 'Working Hours', lines: ['Monday – Saturday', '8:00am – 5:30pm'], link: null },
     ],
     form_title: 'Send Inquiry',
     name_lbl: 'Full Name *', name_ph: 'John Smith',
@@ -56,6 +62,7 @@ const T = {
     send_another: 'Send Another',
     error_msg: 'An error occurred. Please try again or contact us directly.',
     map_title: 'Our Location',
+    view_map: 'View larger map',
     contact_info_title: 'Contact Information',
     follow: 'Follow us',
     cta_title: 'Ready to Partner with ARTOCA?',
@@ -65,11 +72,11 @@ const T = {
 }
 
 const iconMap = {
-  mappin: <FiMapPin size={22} />,
-  factory: <FiMapPin size={22} />,
-  phone: <FiPhone size={22} />,
-  mail: <FiMail size={22} />,
-  clock: <FiClock size={22} />,
+  mappin:  <FiMapPin size={20} />,
+  factory: <FiMapPin size={20} />,
+  phone:   <FiPhone size={20} />,
+  mail:    <FiMail size={20} />,
+  clock:   <FiClock size={20} />,
 }
 
 export default function LienHe() {
@@ -107,21 +114,35 @@ export default function LienHe() {
         </div>
       </div>
 
-      {/* Info cards */}
+      {/* Info cards — all clickable */}
       <section className="py-10 bg-[#FBF5EF]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {t.cards.map((card, i) => (
-              <div key={i} className="bg-white rounded-lg p-5 border border-gray-200 hover:border-[#E07820] hover:shadow-md transition-all text-center">
-                <div className="w-10 h-10 bg-[#4A2C17] rounded-full flex items-center justify-center mx-auto mb-3 text-white">
-                  {iconMap[card.icon]}
+            {t.cards.map((card, i) => {
+              const inner = (
+                <div className={`bg-white rounded-lg p-5 border border-gray-200 transition-all text-center h-full ${card.link ? 'hover:border-[#E07820] hover:shadow-md cursor-pointer' : ''}`}>
+                  <div className="w-10 h-10 bg-[#4A2C17] rounded-full flex items-center justify-center mx-auto mb-3 text-white">
+                    {iconMap[card.icon]}
+                  </div>
+                  <h3 className="font-bold text-[#4A2C17] text-xs mb-2 uppercase">{card.title}</h3>
+                  {card.lines.map((line, j) => (
+                    <p key={j} className="text-gray-600 text-xs">{line}</p>
+                  ))}
+                  {card.link && (
+                    <div className="flex items-center justify-center gap-1 mt-2 text-[#E07820] text-xs">
+                      <FiExternalLink size={10} />
+                    </div>
+                  )}
                 </div>
-                <h3 className="font-bold text-[#4A2C17] text-xs mb-2 uppercase">{card.title}</h3>
-                {card.lines.map((line, j) => (
-                  <p key={j} className="text-gray-600 text-xs">{line}</p>
-                ))}
-              </div>
-            ))}
+              )
+              if (!card.link) return <div key={i}>{inner}</div>
+              const isExternal = card.link.startsWith('http') || card.link.startsWith('wa.')
+              return (
+                <a key={i} href={card.link} target={isExternal ? '_blank' : undefined} rel="noreferrer">
+                  {inner}
+                </a>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -184,33 +205,51 @@ export default function LienHe() {
             {/* Map + social */}
             <div>
               <div className="w-12 h-1 bg-[#E07820] mb-4"></div>
-              <h2 className="text-2xl font-black text-[#4A2C17] mb-6">{t.map_title}</h2>
-              <div className="rounded-lg overflow-hidden shadow-md border border-gray-200 mb-6">
+              <h2 className="text-2xl font-black text-[#4A2C17] mb-4">{t.map_title}</h2>
+
+              {/* Map embed */}
+              <div className="rounded-lg overflow-hidden shadow-md border border-gray-200 mb-2">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.5!2d105.8672!3d20.9742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ad21bd41e6e9%3A0x2a96e4fdbda6e1c2!2zSG_DoG5nIE1haSwgSMOgIE7hu5lp!5e0!3m2!1svi!2svn!4v1234567890"
-                  width="100%" height="280" style={{ border: 0 }} allowFullScreen loading="lazy"
+                  src={MAPS_EMBED}
+                  width="100%" height="260" style={{ border: 0 }} allowFullScreen loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade" title="ARTOCA location"
                 ></iframe>
               </div>
+              <a href={MAPS_HQ} target="_blank" rel="noreferrer"
+                className="flex items-center gap-1.5 text-[#E07820] text-xs font-semibold hover:underline mb-6">
+                <FiExternalLink size={12} />
+                {t.view_map}
+              </a>
 
               <div className="bg-[#2C1810] rounded-lg p-6 text-white">
                 <h3 className="font-bold text-lg mb-4">{t.contact_info_title}</h3>
                 <div className="space-y-3 text-sm">
-                  <div className="flex items-start gap-3">
+                  <a href={MAPS_HQ} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
                     <FiMapPin className="text-[#E07820] shrink-0 mt-0.5" size={15} />
                     <div>
                       <p className="font-semibold text-white text-xs">ARTOCA IMPORT EXPORT CO., LTD</p>
-                      <p className="text-gray-400 text-xs">{lang === 'vi' ? 'Số 41, ngõ 190 đường Hoàng Mai, Hà Nội' : 'No.41, alley 190, Hoang Mai road, Hanoi, Vietnam'}</p>
+                      <p className="text-gray-400 text-xs group-hover:text-gray-300 transition-colors">
+                        {lang === 'vi' ? 'Số 41, ngõ 190 đường Hoàng Mai, Hà Nội' : 'No.41, alley 190, Hoang Mai road, Hanoi, Vietnam'}
+                      </p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3">
+                  </a>
+                  <a href={MAPS_FACTORY} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
+                    <FiMapPin className="text-[#E07820] shrink-0 mt-0.5" size={15} />
+                    <div>
+                      <p className="font-semibold text-white text-xs">{lang === 'vi' ? 'Xưởng sản xuất' : 'Factory'}</p>
+                      <p className="text-gray-400 text-xs group-hover:text-gray-300 transition-colors">
+                        {lang === 'vi' ? 'TT Mậu A, Lào Cai, Việt Nam' : 'Mau A town, Lao Cai Province, Vietnam'}
+                      </p>
+                    </div>
+                  </a>
+                  <a href={WA_URL} target="_blank" rel="noreferrer" className="flex items-center gap-3 group">
                     <FiPhone className="text-[#E07820] shrink-0" size={15} />
-                    <a href="https://wa.me/+84986768378" className="text-gray-400 hover:text-white text-xs">+84 986 768 378</a>
-                  </div>
-                  <div className="flex items-center gap-3">
+                    <span className="text-gray-400 text-xs group-hover:text-white transition-colors">+84 986 768 378</span>
+                  </a>
+                  <a href="mailto:artocavn@gmail.com" className="flex items-center gap-3 group">
                     <FiMail className="text-[#E07820] shrink-0" size={15} />
-                    <a href="mailto:Artocavn@gmail.com" className="text-gray-400 hover:text-white text-xs">Artocavn@gmail.com</a>
-                  </div>
+                    <span className="text-gray-400 text-xs group-hover:text-white transition-colors">artocavn@gmail.com</span>
+                  </a>
                   <div className="flex items-center gap-3">
                     <FiClock className="text-[#E07820] shrink-0" size={15} />
                     <span className="text-gray-400 text-xs">{lang === 'vi' ? 'Thứ 2 – Thứ 7: 8:00 – 17:30' : 'Mon–Sat: 8:00am–5:30pm'}</span>
@@ -220,16 +259,16 @@ export default function LienHe() {
                 <div className="mt-5 pt-4 border-t border-white/10">
                   <p className="text-gray-400 text-xs mb-3">{t.follow}</p>
                   <div className="flex gap-3">
-                    <a href="https://wa.me/+84986768378" target="_blank" rel="noreferrer"
-                      className="w-9 h-9 bg-[#25D366] flex items-center justify-center rounded hover:opacity-80">
+                    <a href={WA_URL} target="_blank" rel="noreferrer"
+                      className="w-9 h-9 bg-[#25D366] flex items-center justify-center rounded hover:opacity-80 transition-opacity">
                       <FaWhatsapp size={16} />
                     </a>
                     <a href="https://www.linkedin.com/company/117713969/" target="_blank" rel="noreferrer"
-                      className="w-9 h-9 bg-[#0a66c2] flex items-center justify-center rounded hover:opacity-80">
+                      className="w-9 h-9 bg-[#0a66c2] flex items-center justify-center rounded hover:opacity-80 transition-opacity">
                       <FaLinkedin size={16} />
                     </a>
-                    <a href="mailto:Artocavn@gmail.com"
-                      className="w-9 h-9 bg-[#E07820] flex items-center justify-center rounded hover:opacity-80">
+                    <a href="mailto:artocavn@gmail.com"
+                      className="w-9 h-9 bg-[#E07820] flex items-center justify-center rounded hover:opacity-80 transition-opacity">
                       <FiMail size={16} />
                     </a>
                   </div>
@@ -247,8 +286,8 @@ export default function LienHe() {
             <p className="font-black text-xl">{t.cta_title}</p>
             <p className="text-gray-300 text-sm">{t.cta_desc}</p>
           </div>
-          <a href="https://wa.me/+84986768378" target="_blank" rel="noreferrer"
-            className="bg-[#25D366] hover:bg-[#1da857] text-white px-8 py-3 font-bold flex items-center gap-2 whitespace-nowrap transition-colors">
+          <a href={WA_URL} target="_blank" rel="noreferrer"
+            className="bg-[#25D366] hover:bg-[#1da857] text-white px-8 py-3 font-bold flex items-center gap-2 whitespace-nowrap transition-colors rounded">
             <FaWhatsapp size={18} /> {t.cta_wa}: +84 986 768 378
           </a>
         </div>

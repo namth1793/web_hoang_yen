@@ -178,8 +178,40 @@ export default function GioiThieu() {
         </div>
       </section>
 
+      {/* ===== PHOTO GALLERY ===== */}
+      <section className="py-14 bg-[#FBF5EF]">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <div className="w-12 h-1 bg-[#E07820] mx-auto mb-4"></div>
+            <h2 className="text-2xl font-black text-[#4A2C17] uppercase">
+              {lang === 'vi' ? 'HÌNH ẢNH HOẠT ĐỘNG' : 'OUR ACTIVITIES'}
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { src: 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=700&q=80', span: 'md:col-span-2', h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Bộ sưu tập gia vị xuất khẩu' : 'Premium spice collection' },
+              { src: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500&q=80', span: '', h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Nghệ Tây Nguyên' : 'Highland Turmeric' },
+              { src: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=500&q=80', span: '', h: 'h-56', cap: lang === 'vi' ? 'Quế Văn Yên' : 'Van Yen Cinnamon' },
+              { src: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&q=80', span: '', h: 'h-56', cap: lang === 'vi' ? 'Hồi Lạng Sơn' : 'Lang Son Star Anise' },
+              { src: 'https://images.unsplash.com/photo-1542601906897-ecd92d0d52f5?w=700&q=80', span: 'md:col-span-2', h: 'h-56', cap: lang === 'vi' ? 'Kiểm soát chất lượng' : 'Quality control process' },
+            ].map((item, i) => (
+              <div key={i} className={`${item.span} relative group overflow-hidden rounded-lg`}>
+                <img
+                  src={item.src}
+                  alt={item.cap}
+                  className={`w-full ${item.h} object-cover group-hover:scale-105 transition-transform duration-500`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <span className="text-white text-sm font-semibold">{item.cap}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== VISION & MISSION ===== */}
-      <section id="tam-nhin" className="py-16 bg-[#FBF5EF]">
+      <section id="tam-nhin" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-10">
             <div className="w-12 h-1 bg-[#E07820] mx-auto mb-4"></div>
