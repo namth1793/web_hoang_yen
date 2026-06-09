@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function AdminLogin() {
   const [form, setForm] = useState({ username: '', password: '' })
@@ -30,7 +30,7 @@ export default function AdminLogin() {
           <div className="w-14 h-14 bg-[#6B2200] rounded-full flex items-center justify-center mx-auto mb-3">
             <span className="text-white text-2xl">🔐</span>
           </div>
-          <h1 className="text-xl font-black text-[#6B2200]">Trosie Admin</h1>
+          <h1 className="text-xl font-black text-[#6B2200]">Artoca Admin</h1>
           <p className="text-gray-400 text-sm">Đăng nhập để quản lý</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
