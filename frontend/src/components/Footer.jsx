@@ -118,15 +118,27 @@ export default function Footer() {
             {/* Col 4: Contact */}
             <div>
               <h4 className="text-white font-bold mb-3 text-sm uppercase">{t.contact_lbl}</h4>
+
+              {/* Map embed — click to open Google Maps */}
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=41+ng%C3%B5+190+Ho%C3%A0ng+Mai+H%C3%A0+N%E1%BB%99i+Vi%E1%BB%87t+Nam"
+                target="_blank" rel="noreferrer"
+                className="block relative rounded overflow-hidden mb-3 group"
+                style={{ height: '110px' }}
+              >
+                <iframe
+                  src="https://maps.google.com/maps?q=Ho%C3%A0ng+Mai%2C+H%C3%A0+N%E1%BB%99i%2C+Vi%E1%BB%87t+Nam&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  width="100%" height="110" style={{ border: 0, display: 'block', pointerEvents: 'none' }}
+                  loading="lazy" title="ARTOCA map"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition-colors">
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-semibold bg-[#E07820] px-2 py-1 rounded">
+                    {lang === 'vi' ? 'Xem bản đồ' : 'View map'}
+                  </span>
+                </div>
+              </a>
+
               <div className="space-y-2 text-xs text-gray-400">
-                <div className="flex items-start gap-2">
-                  <FiMapPin className="text-[#E07820] shrink-0 mt-0.5" size={12} />
-                  <span>{t.addr_hq}</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <FiMapPin className="text-[#E07820] shrink-0 mt-0.5" size={12} />
-                  <span>{t.addr_factory}</span>
-                </div>
                 <div className="flex items-center gap-2">
                   <FiPhone className="text-[#E07820] shrink-0" size={12} />
                   <a href="https://wa.me/84986768378" className="hover:text-white transition-colors">+84 986 768 378</a>
