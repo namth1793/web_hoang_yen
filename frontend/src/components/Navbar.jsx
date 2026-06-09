@@ -84,10 +84,17 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [dropdown, setDropdown] = useState(null)
   const [mobileDropdown, setMobileDropdown] = useState(null)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   const dropdownTimer = useRef(null)
 
   useEffect(() => { setOpen(false); setDropdown(null); setMobileDropdown(null) }, [location])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const handleMouseEnter = (label) => {
     clearTimeout(dropdownTimer.current)
@@ -150,7 +157,7 @@ export default function Navbar() {
       </div>
 
       {/* Brown navigation bar */}
-      <nav className="bg-[#4A2C17] sticky top-0 z-50 shadow-md">
+      <nav className={`bg-[#4A2C17] sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'shadow-[0_4px_20px_rgba(0,0,0,0.35)]' : 'shadow-md'}`}>
         <div className="max-w-[1200px] mx-auto px-4">
           {/* Desktop */}
           <div className="hidden lg:flex items-center">
