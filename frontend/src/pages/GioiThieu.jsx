@@ -1,6 +1,18 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiArrowRight, FiCheck } from 'react-icons/fi'
 import { useLanguage } from '../context/LanguageContext'
+
+const GALLERY_DEFAULTS = [
+  'https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=700&q=80',
+  'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500&q=80',
+  'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=500&q=80',
+  'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&q=80',
+  'https://images.unsplash.com/photo-1542601906897-ecd92d0d52f5?w=700&q=80',
+  'https://images.unsplash.com/photo-1543565077-c1c5dcaab1bf?w=700&q=80',
+]
+const OVERVIEW_DEFAULT = 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=700&q=80'
 
 const T = {
   vi: {
@@ -128,6 +140,14 @@ const T = {
 export default function GioiThieu() {
   const { lang } = useLanguage()
   const t = T[lang]
+  const [aboutImgs, setAboutImgs] = useState({})
+
+  useEffect(() => {
+    axios.get('/api/content/about').then(r => setAboutImgs(r.data)).catch(() => {})
+  }, [])
+
+  const galleryImg = (i) => aboutImgs[`gallery_${i}`] || GALLERY_DEFAULTS[i - 1]
+  const overviewImg = aboutImgs['overview_img'] || OVERVIEW_DEFAULT
 
   return (
     <div>
@@ -164,7 +184,7 @@ export default function GioiThieu() {
             </div>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=700&q=80"
+                src={overviewImg}
                 alt="ARTOCA Spices"
                 className="rounded-lg shadow-xl w-full object-cover"
                 style={{ height: '420px' }}
@@ -189,15 +209,15 @@ export default function GioiThieu() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
-              { src: 'https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=700&q=80', span: 'md:col-span-2', h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Bộ sưu tập gia vị xuất khẩu' : 'Premium spice collection' },
-              { src: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=500&q=80', span: '', h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Nghệ Tây Nguyên' : 'Highland Turmeric' },
-              { src: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=500&q=80', span: '', h: 'h-56', cap: lang === 'vi' ? 'Quế Văn Yên' : 'Van Yen Cinnamon' },
-              { src: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&q=80', span: '', h: 'h-56', cap: lang === 'vi' ? 'Hồi Lạng Sơn' : 'Lang Son Star Anise' },
-              { src: 'https://images.unsplash.com/photo-1542601906897-ecd92d0d52f5?w=700&q=80', span: 'md:col-span-2', h: 'h-56', cap: lang === 'vi' ? 'Kiểm soát chất lượng' : 'Quality control process' },
+              { n: 1, span: 'md:col-span-2', h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Bộ sưu tập gia vị xuất khẩu' : 'Premium spice collection' },
+              { n: 2, span: '',              h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Nghệ Tây Nguyên' : 'Highland Turmeric' },
+              { n: 3, span: '',              h: 'h-56',          cap: lang === 'vi' ? 'Quế Văn Yên' : 'Van Yen Cinnamon' },
+              { n: 4, span: '',              h: 'h-56',          cap: lang === 'vi' ? 'Hồi Lạng Sơn' : 'Lang Son Star Anise' },
+              { n: 5, span: 'md:col-span-2', h: 'h-56',          cap: lang === 'vi' ? 'Kiểm soát chất lượng' : 'Quality control process' },
             ].map((item, i) => (
               <div key={i} className={`${item.span} relative group overflow-hidden rounded-lg`}>
                 <img
-                  src={item.src}
+                  src={galleryImg(item.n)}
                   alt={item.cap}
                   className={`w-full ${item.h} object-cover group-hover:scale-105 transition-transform duration-500`}
                 />

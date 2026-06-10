@@ -6,6 +6,7 @@ const navItems = [
   { to: '/admin', label: 'Dashboard', icon: <FiGrid size={16} />, end: true },
   { to: '/admin/products', label: 'Sản Phẩm', icon: <FiPackage size={16} /> },
   { to: '/admin/news', label: 'Tin Tức', icon: <FiFileText size={16} /> },
+  { to: '/admin/images', label: 'Hình Ảnh', icon: <FiImage size={16} /> },
   { to: '/admin/banners', label: 'Banners', icon: <FiImage size={16} /> },
   { to: '/admin/content', label: 'Nội Dung Trang', icon: <FiEdit3 size={16} /> },
   { to: '/admin/contacts', label: 'Hộp Thư', icon: <FiMail size={16} /> },

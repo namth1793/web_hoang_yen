@@ -11,6 +11,14 @@ import { useLanguage } from '../context/LanguageContext'
 
 const WA = 'https://wa.me/84986768378'
 
+const CAT_DEFAULTS = {
+  que:  'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=80',
+  hoi:  'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80',
+  gung: 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=800&q=80',
+  nghe: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&q=80',
+}
+const WHY_DEFAULT = 'https://images.unsplash.com/photo-1542601098-8fc114e148e2?w=700&q=80'
+
 const T = {
   vi: {
     hero_badge: 'XUẤT KHẨU GIA VỊ VIỆT NAM',
@@ -186,13 +194,18 @@ export default function Home() {
   const t = T[lang]
   const [banners, setBanners] = useState(BANNERS)
   const [news, setNews] = useState([])
+  const [siteImgs, setSiteImgs] = useState({})
 
   useReveal()
 
   useEffect(() => {
     axios.get('/api/banners').then(r => r.data?.length && setBanners(r.data)).catch(() => {})
     axios.get('/api/news?limit=3').then(r => setNews(r.data)).catch(() => {})
+    axios.get('/api/content/home').then(r => setSiteImgs(r.data)).catch(() => {})
   }, [])
+
+  const catImg = (slug) => siteImgs[`cat_${slug}_img`] || CAT_DEFAULTS[slug]
+  const whyImg = siteImgs['why_img'] || WHY_DEFAULT
 
   const fmtDate = d => new Date(d).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-US', { day: '2-digit', month: 'short', year: 'numeric' })
 
@@ -284,7 +297,7 @@ export default function Home() {
                 className={`fade-up d${i + 1} group relative overflow-hidden block`}
                 style={{ height: 340 }}
               >
-                <img src={p.img} alt={p.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src={catImg(p.slug)} alt={p.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
                 <div className="absolute inset-0 flex flex-col justify-end p-5">
                   <span className="text-[#E07820] text-[11px] font-bold uppercase tracking-widest mb-1">{p.en}</span>
@@ -314,7 +327,7 @@ export default function Home() {
               </blockquote>
               <div className="relative overflow-hidden rounded" style={{ height: 220 }}>
                 <img
-                  src="https://images.unsplash.com/photo-1542601098-8fc114e148e2?w=700&q=80"
+                  src={whyImg}
                   alt="Spice quality control"
                   className="w-full h-full object-cover"
                 />

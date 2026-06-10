@@ -66,13 +66,13 @@ module.exports = (db) => {
   })
 
   router.post('/products', auth, (req, res) => {
-    const { name, name_en, slug, category, description, description_en, detail, detail_en, image, unit, origin } = req.body
+    const { name, name_en, slug, category, description, description_en, detail, detail_en, image, images, moisture, admixture, oil, unit, origin } = req.body
     if (!name || !slug) return res.status(400).json({ error: 'Thiếu tên hoặc slug' })
     try {
       const r = db.prepare(
-        `INSERT INTO products (name, name_en, slug, category, description, description_en, detail, detail_en, image, unit, origin)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?)`
-      ).run(name, name_en || '', slug, category || 'que', description || '', description_en || '', detail || '', detail_en || '', image || '', unit || 'Tấn', origin || '')
+        `INSERT INTO products (name, name_en, slug, category, description, description_en, detail, detail_en, image, images, moisture, admixture, oil, unit, origin)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      ).run(name, name_en || '', slug, category || 'que', description || '', description_en || '', detail || '', detail_en || '', image || '', images || '[]', moisture || '', admixture || '', oil || '', unit || 'Tấn', origin || '')
       res.json({ success: true, id: r.lastInsertRowid })
     } catch {
       res.status(400).json({ error: 'Slug đã tồn tại' })
@@ -80,13 +80,13 @@ module.exports = (db) => {
   })
 
   router.put('/products/:id', auth, (req, res) => {
-    const { name, name_en, slug, category, description, description_en, detail, detail_en, image, unit, origin } = req.body
+    const { name, name_en, slug, category, description, description_en, detail, detail_en, image, images, moisture, admixture, oil, unit, origin } = req.body
     if (!name || !slug) return res.status(400).json({ error: 'Thiếu tên hoặc slug' })
     try {
       db.prepare(
         `UPDATE products SET name=?, name_en=?, slug=?, category=?, description=?, description_en=?,
-         detail=?, detail_en=?, image=?, unit=?, origin=? WHERE id=?`
-      ).run(name, name_en || '', slug, category || 'que', description || '', description_en || '', detail || '', detail_en || '', image || '', unit || 'Tấn', origin || '', req.params.id)
+         detail=?, detail_en=?, image=?, images=?, moisture=?, admixture=?, oil=?, unit=?, origin=? WHERE id=?`
+      ).run(name, name_en || '', slug, category || 'que', description || '', description_en || '', detail || '', detail_en || '', image || '', images || '[]', moisture || '', admixture || '', oil || '', unit || 'Tấn', origin || '', req.params.id)
       res.json({ success: true })
     } catch {
       res.status(400).json({ error: 'Slug đã tồn tại' })
