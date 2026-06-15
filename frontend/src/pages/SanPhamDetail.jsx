@@ -105,13 +105,18 @@ export default function SanPhamDetail() {
     } catch {}
   }
 
-  const renderDetail = (html) => {
-    if (!html) return null
-    return html
-      .replace(/<h3>/g, '<h3 style="color:#4A2C17;font-weight:700;font-size:0.95rem;margin-top:1.25rem;margin-bottom:0.5rem;border-left:3px solid #E07820;padding-left:8px;">')
-      .replace(/<ul>/g, '<ul style="list-style-type:disc;padding-left:1.5rem;margin-bottom:1rem;">')
-      .replace(/<li>/g, '<li style="margin-bottom:0.35rem;font-size:0.82rem;color:#374151;">')
-      .replace(/<p>/g, '<p style="font-size:0.82rem;color:#6b7280;margin-bottom:0.5rem;">')
+  const renderDetail = (text) => {
+    if (!text) return null
+    const hasHtml = /<[a-z][\s\S]*>/i.test(text)
+    if (hasHtml) {
+      const html = text
+        .replace(/<h3>/g, '<h3 style="color:#4A2C17;font-weight:700;font-size:0.95rem;margin-top:1.25rem;margin-bottom:0.5rem;border-left:3px solid #E07820;padding-left:8px;">')
+        .replace(/<ul>/g, '<ul style="list-style-type:disc;padding-left:1.5rem;margin-bottom:1rem;">')
+        .replace(/<li>/g, '<li style="margin-bottom:0.35rem;font-size:0.82rem;color:#374151;">')
+        .replace(/<p>/g, '<p style="font-size:0.82rem;color:#6b7280;margin-bottom:0.5rem;">')
+      return <div style={{ lineHeight: '1.8' }} dangerouslySetInnerHTML={{ __html: html }} />
+    }
+    return <div style={{ lineHeight: '1.85', whiteSpace: 'pre-line', fontSize: '0.875rem', color: '#374151' }}>{text}</div>
   }
 
   if (loading) return (
@@ -259,7 +264,7 @@ export default function SanPhamDetail() {
                     className="bg-[#25D366] hover:bg-[#1da857] text-white px-5 py-2.5 font-semibold flex items-center gap-2 text-sm transition-colors rounded">
                     <FaWhatsapp size={15} /> {t.wa_btn}
                   </a>
-                  <a href="mailto:artocavn@gmail.com"
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=artocavn@gmail.com" target="_blank" rel="noreferrer"
                     className="border-2 border-[#4A2C17] text-[#4A2C17] px-5 py-2.5 font-semibold hover:bg-[#4A2C17] hover:text-white transition-colors flex items-center gap-2 text-sm rounded">
                     <FiMail size={14} /> {t.email_btn}
                   </a>
@@ -267,13 +272,11 @@ export default function SanPhamDetail() {
               </div>
             </div>
 
-            {/* Detail HTML */}
+            {/* Detail */}
             {displayDetail && (
               <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
                 <h3 className="font-black text-[#4A2C17] text-lg mb-5 pb-3 border-b-2 border-[#E07820]">{t.detail_title}</h3>
-                <div style={{ lineHeight: '1.8' }}
-                  dangerouslySetInnerHTML={{ __html: renderDetail(displayDetail) }}
-                />
+                {renderDetail(displayDetail)}
               </div>
             )}
 
@@ -354,7 +357,7 @@ export default function SanPhamDetail() {
               </div>
               <div className="flex items-center gap-2.5">
                 <FiMail className="text-[#E07820] shrink-0" size={14} />
-                <a href="mailto:artocavn@gmail.com" className="text-gray-300 text-xs hover:text-white">artocavn@gmail.com</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=artocavn@gmail.com" target="_blank" rel="noreferrer" className="text-gray-300 text-xs hover:text-white">artocavn@gmail.com</a>
               </div>
             </div>
 

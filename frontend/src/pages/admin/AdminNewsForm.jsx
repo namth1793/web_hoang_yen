@@ -170,11 +170,11 @@ export default function AdminNewsForm() {
                     placeholder="Mô tả ngắn hiển thị trên danh sách tin..." />
                 </div>
                 <div>
-                  <label className={LABEL}>Nội dung bài viết (VI)</label>
-                  <textarea rows={12} value={form.content} onChange={set('content')}
-                    className={`${INPUT} resize-y font-mono text-xs`}
-                    placeholder={'<p>Nội dung bài viết...</p>\n<h3>Tiêu đề phụ</h3>\n<ul>\n<li>Điểm 1</li>\n</ul>'} />
-                  <p className="text-xs text-gray-400 mt-1">Hỗ trợ HTML: &lt;p&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;</p>
+                  <label className={LABEL}>Nội dung bài viết</label>
+                  <textarea rows={14} value={form.content} onChange={set('content')}
+                    className={`${INPUT} resize-y text-sm leading-relaxed`}
+                    placeholder={'Nhập nội dung bài viết...\n\nNhấn Enter để xuống dòng hoặc tạo đoạn văn mới.\n\nTrang web sẽ hiển thị đúng như bạn nhập ở đây.'} />
+                  <p className="text-xs text-gray-400 mt-1">Nhập văn bản thường – nhấn Enter để xuống dòng. Nội dung dùng chung cho cả VI và EN.</p>
                 </div>
               </>
             ) : (

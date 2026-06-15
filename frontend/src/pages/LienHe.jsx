@@ -6,6 +6,8 @@ import { FaLinkedin, FaWhatsapp } from 'react-icons/fa'
 import { useLanguage } from '../context/LanguageContext'
 
 const WA_URL = 'https://wa.me/84986768378'
+const EMAIL = 'artocavn@gmail.com'
+const GMAIL_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`
 const MAPS_HQ = 'https://www.google.com/maps/search/?api=1&query=41+ng%C3%B5+190+Ho%C3%A0ng+Mai+H%C3%A0+N%E1%BB%99i+Vi%E1%BB%87t+Nam'
 const MAPS_FACTORY = 'https://www.google.com/maps/search/?api=1&query=Th%E1%BB%8B+tr%E1%BA%A5n+M%E1%BA%ADu+A+L%C3%A0o+Cai+Vi%E1%BB%87t+Nam'
 const MAPS_EMBED = 'https://maps.google.com/maps?q=Ho%C3%A0ng+Mai%2C+H%C3%A0+N%E1%BB%99i%2C+Vi%E1%BB%87t+Nam&t=&z=15&ie=UTF8&iwloc=&output=embed'
@@ -18,7 +20,7 @@ const T = {
       { icon: 'mappin', title: 'Trụ sở chính', lines: ['Số 41, ngõ 190 đường Hoàng Mai', 'Hà Nội, Việt Nam'], link: MAPS_HQ },
       { icon: 'factory', title: 'Xưởng sản xuất', lines: ['TT Mậu A, Lào Cai', 'Việt Nam'], link: MAPS_FACTORY },
       { icon: 'phone', title: 'Hotline / WhatsApp', lines: ['+84 986 768 378'], link: WA_URL },
-      { icon: 'mail', title: 'Email', lines: ['artocavn@gmail.com'], link: 'mailto:artocavn@gmail.com' },
+      { icon: 'mail', title: 'Email', lines: ['artocavn@gmail.com'], link: GMAIL_URL },
       { icon: 'clock', title: 'Giờ làm việc', lines: ['Thứ 2 – Thứ 7', '8:00 – 17:30'], link: null },
     ],
     form_title: 'Gửi Yêu Cầu Hợp Tác',
@@ -47,7 +49,7 @@ const T = {
       { icon: 'mappin', title: 'Head Office', lines: ['No.41, alley 190, Hoang Mai road', 'Hanoi, Vietnam'], link: MAPS_HQ },
       { icon: 'factory', title: 'Factory', lines: ['Mau A town, Lao Cai Province', 'Vietnam'], link: MAPS_FACTORY },
       { icon: 'phone', title: 'Hotline / WhatsApp', lines: ['+84 986 768 378'], link: WA_URL },
-      { icon: 'mail', title: 'Email', lines: ['artocavn@gmail.com'], link: 'mailto:artocavn@gmail.com' },
+      { icon: 'mail', title: 'Email', lines: ['artocavn@gmail.com'], link: GMAIL_URL },
       { icon: 'clock', title: 'Working Hours', lines: ['Monday – Saturday', '8:00am – 5:30pm'], link: null },
     ],
     form_title: 'Send Inquiry',
@@ -246,7 +248,7 @@ export default function LienHe() {
                     <FiPhone className="text-[#E07820] shrink-0" size={15} />
                     <span className="text-gray-400 text-xs group-hover:text-white transition-colors">+84 986 768 378</span>
                   </a>
-                  <a href="mailto:artocavn@gmail.com" className="flex items-center gap-3 group">
+                  <a href={GMAIL_URL} target="_blank" rel="noreferrer" className="flex items-center gap-3 group">
                     <FiMail className="text-[#E07820] shrink-0" size={15} />
                     <span className="text-gray-400 text-xs group-hover:text-white transition-colors">artocavn@gmail.com</span>
                   </a>
@@ -267,7 +269,7 @@ export default function LienHe() {
                       className="w-9 h-9 bg-[#0a66c2] flex items-center justify-center rounded hover:opacity-80 transition-opacity">
                       <FaLinkedin size={16} />
                     </a>
-                    <a href="mailto:artocavn@gmail.com"
+                    <a href={GMAIL_URL} target="_blank" rel="noreferrer"
                       className="w-9 h-9 bg-[#E07820] flex items-center justify-center rounded hover:opacity-80 transition-opacity">
                       <FiMail size={16} />
                     </a>

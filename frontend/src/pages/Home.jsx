@@ -206,6 +206,8 @@ export default function Home() {
 
   const catImg = (slug) => siteImgs[`cat_${slug}_img`] || CAT_DEFAULTS[slug]
   const whyImg = siteImgs['why_img'] || WHY_DEFAULT
+  const heroTitle = (lang === 'vi' ? siteImgs.hero_title_vi : siteImgs.hero_title_en) || t.hero_title
+  const heroDesc  = (lang === 'vi' ? siteImgs.hero_desc_vi  : siteImgs.hero_desc_en)  || t.hero_desc
 
   const fmtDate = d => new Date(d).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-US', { day: '2-digit', month: 'short', year: 'numeric' })
 
@@ -237,10 +239,10 @@ export default function Home() {
                 {t.hero_badge}
               </span>
               <h1 className="hero-title text-white text-4xl md:text-6xl mb-5 whitespace-pre-line leading-tight">
-                {t.hero_title}
+                {heroTitle}
               </h1>
-              <p className="hero-desc text-gray-200 text-base md:text-lg max-w-[520px] mb-8">
-                {t.hero_desc}
+              <p className="hero-desc text-gray-200 text-base md:text-lg max-w-[520px] mb-8 whitespace-pre-line">
+                {heroDesc}
               </p>
               <div className="hero-cta flex flex-wrap gap-3">
                 <Link to="/san-pham" className="bg-[#E07820] hover:bg-[#B85E0A] text-white font-bold px-7 py-3.5 transition-colors inline-flex items-center gap-2 text-sm rounded-sm">

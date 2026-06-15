@@ -1,65 +1,52 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { FiUpload, FiSave } from 'react-icons/fi'
+import { FiSave } from 'react-icons/fi'
 
 const api = () => ({ headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}` } })
 
 const PAGE_SCHEMA = {
-  'ca-phe': {
-    label: '☕ Cà Phê',
-    fields: [
-      { key: 'hero_image', type: 'image', label: 'Ảnh hero chính' },
-      { key: 'overview_title', type: 'text', label: 'Tiêu đề tổng quan' },
-      { key: 'overview_text', type: 'textarea', label: 'Mô tả tổng quan' },
-    ]
-  },
-  'gang-tay-y-te': {
-    label: '🧤 Găng Tay Y Tế',
-    fields: [
-      { key: 'hero_image', type: 'image', label: 'Ảnh hero chính' },
-      { key: 'overview_text', type: 'textarea', label: 'Mô tả tổng quan' },
-    ]
-  },
-  'nong-san': {
-    label: '🌿 Nông Sản',
-    fields: [
-      { key: 'hero_image', type: 'image', label: 'Ảnh hero chính' },
-      { key: 'overview_text', type: 'textarea', label: 'Mô tả tổng quan' },
-    ]
-  },
-  'than-khong-khoi': {
-    label: '🔥 Than Không Khói',
-    fields: [
-      { key: 'hero_image', type: 'image', label: 'Ảnh hero chính' },
-      { key: 'hero_title', type: 'text', label: 'Tiêu đề hero' },
-      { key: 'hero_desc', type: 'textarea', label: 'Mô tả hero' },
-    ]
-  },
-  'hoa-hong-say-lanh': {
-    label: '🌹 Hoa Hồng Sấy Lạnh',
-    fields: [
-      { key: 'hero_image', type: 'image', label: 'Ảnh hero chính' },
-      { key: 'hero_title', type: 'text', label: 'Tiêu đề hero' },
-      { key: 'hero_desc', type: 'textarea', label: 'Mô tả hero' },
-    ]
-  },
   'home': {
     label: '🏠 Trang Chủ',
     fields: [
-      { key: 'intro_text', type: 'textarea', label: 'Đoạn giới thiệu ngắn (thanh nâu)' },
+      { key: 'hero_title_vi', type: 'text',     label: 'Tiêu đề hero (VI)',      ph: 'Chất Lượng Từ Vùng Nguyên Liệu' },
+      { key: 'hero_title_en', type: 'text',     label: 'Hero title (EN)',         ph: 'Quality From The Source' },
+      { key: 'hero_desc_vi',  type: 'textarea', label: 'Mô tả hero (VI)',         ph: 'ARTOCA chuyên xuất khẩu quế, hồi, gừng, nghệ chất lượng cao...' },
+      { key: 'hero_desc_en',  type: 'textarea', label: 'Hero description (EN)',   ph: 'ARTOCA exports premium Vietnamese cinnamon, star anise...' },
+    ]
+  },
+  'about': {
+    label: '📖 Giới Thiệu',
+    fields: [
+      { key: 'overview_title_vi', type: 'text',     label: 'Tiêu đề tổng quan (VI)',  ph: 'CÔNG TY TNHH XNK ARTOCA' },
+      { key: 'overview_title_en', type: 'text',     label: 'Overview title (EN)',      ph: 'ARTOCA IMPORT EXPORT CO., LTD' },
+      { key: 'overview_body_vi',  type: 'textarea', label: 'Nội dung tổng quan (VI)', ph: 'Công ty TNHH XNK Artoca là doanh nghiệp xuất khẩu uy tín...\n\nNhập Enter để xuống dòng.' },
+      { key: 'overview_body_en',  type: 'textarea', label: 'Overview body (EN)',       ph: 'ARTOCA Import Export Co., Ltd is a trusted exporter...\n\nPress Enter for new paragraph.' },
+      { key: 'vision_vi',         type: 'textarea', label: 'Tầm nhìn (VI)',            ph: 'ARTOCA hướng tới trở thành thương hiệu hàng đầu...' },
+      { key: 'vision_en',         type: 'textarea', label: 'Vision (EN)',               ph: 'ARTOCA aims to become a leading and trusted brand...' },
+      { key: 'mission_vi',        type: 'textarea', label: 'Sứ mệnh (VI)',              ph: 'ARTOCA mang sứ mệnh kết nối nông sản Việt Nam...' },
+      { key: 'mission_en',        type: 'textarea', label: 'Mission (EN)',               ph: "ARTOCA's mission is to connect Vietnamese agricultural products..." },
+    ]
+  },
+  'contact': {
+    label: '📞 Liên Hệ',
+    fields: [
+      { key: 'intro_vi',       type: 'textarea', label: 'Lời giới thiệu trang Liên Hệ (VI)', ph: 'Liên hệ với chúng tôi để nhận báo giá và tư vấn...' },
+      { key: 'intro_en',       type: 'textarea', label: 'Contact page intro (EN)',             ph: 'Contact us to receive a quote and consultation...' },
+      { key: 'address_hq_vi',  type: 'text',     label: 'Địa chỉ trụ sở (VI)',               ph: 'Số 41, ngõ 190 đường Hoàng Mai, Hà Nội' },
+      { key: 'address_hq_en',  type: 'text',     label: 'HQ Address (EN)',                    ph: 'No.41, alley 190, Hoang Mai road, Hanoi, Vietnam' },
+      { key: 'address_factory_vi', type: 'text', label: 'Địa chỉ nhà máy (VI)',              ph: 'TT Mậu A, Lào Cai, Việt Nam' },
+      { key: 'address_factory_en', type: 'text', label: 'Factory Address (EN)',               ph: 'Mau A town, Lao Cai Province, Vietnam' },
     ]
   },
 }
 
 export default function AdminContent() {
-  const [activePage, setActivePage] = useState('ca-phe')
+  const [activePage, setActivePage] = useState('home')
   const [values, setValues] = useState({})
-  const [uploading, setUploading] = useState('')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
-  const fileRefs = useRef({})
   const navigate = useNavigate()
 
   const schema = PAGE_SCHEMA[activePage]
@@ -70,19 +57,6 @@ export default function AdminContent() {
       .then(r => setValues(r.data))
       .catch(() => navigate('/admin/login'))
   }, [activePage])
-
-  const handleUpload = async (key, file) => {
-    if (!file) return
-    setUploading(key); setError('')
-    try {
-      const fd = new FormData(); fd.append('image', file)
-      const { data } = await axios.post('/api/admin/upload', fd, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('admin_token')}`, 'Content-Type': 'multipart/form-data' }
-      })
-      setValues(v => ({ ...v, [key]: data.url }))
-    } catch (err) { setError(err.response?.data?.error || 'Upload thất bại') }
-    setUploading('')
-  }
 
   const handleSave = async () => {
     setSaving(true); setError(''); setSaved(false)
@@ -126,39 +100,21 @@ export default function AdminContent() {
               <div key={field.key}>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">{field.label}</label>
 
-                {field.type === 'image' && (
-                  <div>
-                    <div className="flex gap-2">
-                      <input type="text" value={values[field.key] || ''}
-                        onChange={e => setValues(v => ({ ...v, [field.key]: e.target.value }))}
-                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#6B2200]"
-                        placeholder="URL ảnh hoặc upload từ máy" />
-                      <input ref={el => fileRefs.current[field.key] = el} type="file" accept="image/*" className="hidden"
-                        onChange={e => handleUpload(field.key, e.target.files[0])} />
-                      <button type="button" onClick={() => fileRefs.current[field.key]?.click()}
-                        disabled={uploading === field.key}
-                        className="flex items-center gap-1.5 bg-gray-100 border border-gray-300 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-200 disabled:opacity-60 whitespace-nowrap">
-                        <FiUpload size={13} /> {uploading === field.key ? 'Uploading...' : 'Upload ảnh'}
-                      </button>
-                    </div>
-                    {values[field.key] && (
-                      <img src={values[field.key]} alt="" className="mt-2 h-36 w-auto rounded-lg object-cover border border-gray-200" />
-                    )}
-                  </div>
-                )}
-
                 {field.type === 'text' && (
                   <input type="text" value={values[field.key] || ''}
                     onChange={e => setValues(v => ({ ...v, [field.key]: e.target.value }))}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#6B2200]"
-                    placeholder={`Nhập ${field.label.toLowerCase()}...`} />
+                    placeholder={field.ph || `Nhập ${field.label.toLowerCase()}...`} />
                 )}
 
                 {field.type === 'textarea' && (
                   <textarea rows={4} value={values[field.key] || ''}
                     onChange={e => setValues(v => ({ ...v, [field.key]: e.target.value }))}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-[#6B2200] resize-y"
-                    placeholder={`Nhập ${field.label.toLowerCase()}...`} />
+                    placeholder={field.ph || `Nhập ${field.label.toLowerCase()}...`} />
+                )}
+                {field.type === 'textarea' && (
+                  <p className="text-xs text-gray-400 mt-1">Nhấn Enter để xuống dòng – trang web sẽ hiển thị đúng như bạn nhập.</p>
                 )}
               </div>
             ))}

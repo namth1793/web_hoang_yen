@@ -295,11 +295,11 @@ export default function AdminProductForm() {
                     className={`${INPUT} resize-none`} placeholder="Mô tả ngắn hiển thị trên danh sách..." />
                 </div>
                 <div>
-                  <label className={LABEL}>Nội dung chi tiết (VI) – HTML</label>
+                  <label className={LABEL}>Nội dung chi tiết (VI)</label>
                   <textarea rows={12} value={f('detail')} onChange={set('detail')}
-                    className={`${INPUT} resize-y font-mono text-xs leading-relaxed`}
-                    placeholder={'<h3>Đặc điểm kỹ thuật</h3>\n<ul>\n<li>Độ ẩm: ≤ 13,5%</li>\n</ul>'} />
-                  <p className="text-xs text-gray-400 mt-1">Hỗ trợ: &lt;h3&gt; &lt;p&gt; &lt;ul&gt; &lt;li&gt;</p>
+                    className={`${INPUT} resize-y text-sm leading-relaxed`}
+                    placeholder={'Đặc điểm kỹ thuật:\n- Độ ẩm: ≤ 13,5%\n- Tạp chất: ≤ 1%\n\nNhấn Enter để xuống dòng.'} />
+                  <p className="text-xs text-gray-400 mt-1">Nhập văn bản thường – nhấn Enter để xuống dòng, trang web sẽ hiển thị đúng như vậy.</p>
                 </div>
               </>
             ) : (
@@ -310,11 +310,11 @@ export default function AdminProductForm() {
                     className={`${INPUT} resize-none`} placeholder="Short description shown on listing..." />
                 </div>
                 <div>
-                  <label className={LABEL}>Detailed Content (EN) – HTML</label>
+                  <label className={LABEL}>Detailed Content (EN)</label>
                   <textarea rows={12} value={f('detail_en')} onChange={set('detail_en')}
-                    className={`${INPUT} resize-y font-mono text-xs leading-relaxed`}
-                    placeholder={'<h3>Technical Specifications</h3>\n<ul>\n<li>Moisture: ≤ 13.5%</li>\n</ul>'} />
-                  <p className="text-xs text-gray-400 mt-1">Supports: &lt;h3&gt; &lt;p&gt; &lt;ul&gt; &lt;li&gt;</p>
+                    className={`${INPUT} resize-y text-sm leading-relaxed`}
+                    placeholder={'Technical Specifications:\n- Moisture: ≤ 13.5%\n- Admixture: ≤ 1%\n\nPress Enter for new line.'} />
+                  <p className="text-xs text-gray-400 mt-1">Plain text – press Enter for new line, website will display exactly as typed.</p>
                 </div>
               </>
             )}

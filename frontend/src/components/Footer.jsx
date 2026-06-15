@@ -84,7 +84,7 @@ export default function Footer() {
                   className="w-8 h-8 bg-[#0a66c2] rounded flex items-center justify-center hover:opacity-80 transition-opacity">
                   <FaLinkedin size={14} color="white" />
                 </a>
-                <a href="mailto:artocavn@gmail.com"
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=artocavn@gmail.com" target="_blank" rel="noreferrer"
                   className="w-8 h-8 bg-[#E07820] rounded flex items-center justify-center hover:opacity-80 transition-opacity">
                   <FiMail size={14} color="white" />
                 </a>
@@ -145,7 +145,7 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center gap-2">
                   <FiMail className="text-[#E07820] shrink-0" size={12} />
-                  <a href="mailto:artocavn@gmail.com" className="hover:text-white transition-colors">artocavn@gmail.com</a>
+                  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=artocavn@gmail.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">artocavn@gmail.com</a>
                 </div>
                 <div className="flex items-center gap-2">
                   <FiClock className="text-[#E07820] shrink-0" size={12} />

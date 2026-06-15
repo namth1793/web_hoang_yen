@@ -89,17 +89,19 @@ export default function TinTucDetail() {
                   <p className="text-gray-600 italic text-base mb-6 p-4 bg-orange-50 border-l-4 border-[#E07820] rounded-r">{displaySummary}</p>
                 )}
 
-                <div
-                  className="text-gray-700 leading-relaxed text-[15px]"
-                  style={{ lineHeight: '1.9' }}
-                  dangerouslySetInnerHTML={{
-                    __html: (article.content || '')
+                {(() => {
+                  const content = article.content || ''
+                  const hasHtml = /<[a-z][\s\S]*>/i.test(content)
+                  if (hasHtml) {
+                    const html = content
                       .replace(/<h3>/g, '<h3 style="color:#4A2C17;font-weight:700;font-size:1.1rem;margin-top:1.5rem;margin-bottom:0.5rem;">')
                       .replace(/<ul>/g, '<ul style="list-style-type:disc;padding-left:1.5rem;margin-bottom:1rem;">')
                       .replace(/<li>/g, '<li style="margin-bottom:0.5rem;">')
                       .replace(/<strong>/g, '<strong style="color:#1a1a1a;">')
-                  }}
-                />
+                    return <div className="text-gray-700 leading-relaxed text-[15px]" style={{ lineHeight: '1.9' }} dangerouslySetInnerHTML={{ __html: html }} />
+                  }
+                  return <div className="text-gray-700 leading-relaxed text-[15px]" style={{ lineHeight: '1.9', whiteSpace: 'pre-line' }}>{content}</div>
+                })()}
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex items-center gap-3">
                   <span className="text-sm text-gray-500 font-semibold">{lang === 'vi' ? 'Chia sẻ:' : 'Share:'}</span>

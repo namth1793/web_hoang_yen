@@ -148,6 +148,10 @@ export default function GioiThieu() {
 
   const galleryImg = (i) => aboutImgs[`gallery_${i}`] || GALLERY_DEFAULTS[i - 1]
   const overviewImg = aboutImgs['overview_img'] || OVERVIEW_DEFAULT
+  const overviewTitle = (lang === 'vi' ? aboutImgs.overview_title_vi : aboutImgs.overview_title_en) || t.overview_title
+  const overviewBodyCms = lang === 'vi' ? aboutImgs.overview_body_vi : aboutImgs.overview_body_en
+  const visionCms   = (lang === 'vi' ? aboutImgs.vision_vi  : aboutImgs.vision_en)  || t.vision_body
+  const missionCms  = (lang === 'vi' ? aboutImgs.mission_vi : aboutImgs.mission_en) || t.mission_body
 
   return (
     <div>
@@ -169,10 +173,13 @@ export default function GioiThieu() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="w-12 h-1 bg-[#E07820] mb-4"></div>
-              <h2 className="text-2xl font-black text-[#4A2C17] mb-5 leading-tight">{t.overview_title}</h2>
-              {t.overview_body.map((p, i) => (
-                <p key={i} className="text-gray-600 leading-relaxed mb-4 text-sm">{p}</p>
-              ))}
+              <h2 className="text-2xl font-black text-[#4A2C17] mb-5 leading-tight">{overviewTitle}</h2>
+              {overviewBodyCms
+                ? <p className="text-gray-600 leading-relaxed mb-4 text-sm whitespace-pre-line">{overviewBodyCms}</p>
+                : t.overview_body.map((p, i) => (
+                    <p key={i} className="text-gray-600 leading-relaxed mb-4 text-sm">{p}</p>
+                  ))
+              }
               <ul className="space-y-2.5 mt-6">
                 {t.overview_list.map((item, i) => (
                   <li key={i} className="flex items-center gap-2.5 text-sm text-gray-700">
@@ -241,12 +248,12 @@ export default function GioiThieu() {
             <div className="bg-white rounded-lg p-8 border-t-4 border-[#4A2C17] shadow-sm">
               <div className="text-4xl mb-4">🔭</div>
               <h3 className="text-xl font-black text-[#4A2C17] mb-4">{t.vision_title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{t.vision_body}</p>
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">{visionCms}</p>
             </div>
             <div className="bg-white rounded-lg p-8 border-t-4 border-[#E07820] shadow-sm">
               <div className="text-4xl mb-4">🎯</div>
               <h3 className="text-xl font-black text-[#4A2C17] mb-4">{t.mission_title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{t.mission_body}</p>
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">{missionCms}</p>
             </div>
           </div>
         </div>
