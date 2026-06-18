@@ -146,8 +146,15 @@ export default function GioiThieu() {
     axios.get('/api/content/about').then(r => setAboutImgs(r.data)).catch(() => {})
   }, [])
 
-  const galleryImg = (i) => aboutImgs[`gallery_${i}`] || GALLERY_DEFAULTS[i - 1]
   const overviewImg = aboutImgs['overview_img'] || OVERVIEW_DEFAULT
+  // Dynamic gallery: CMS stores JSON array in gallery_images, fall back to per-key or defaults
+  const galleryList = (() => {
+    try {
+      const arr = JSON.parse(aboutImgs.gallery_images || '[]')
+      if (arr.length) return arr
+    } catch {}
+    return [1, 2, 3, 4, 5, 6].map(i => aboutImgs[`gallery_${i}`] || GALLERY_DEFAULTS[i - 1])
+  })()
   const overviewTitle = (lang === 'vi' ? aboutImgs.overview_title_vi : aboutImgs.overview_title_en) || t.overview_title
   const overviewBodyCms = lang === 'vi' ? aboutImgs.overview_body_vi : aboutImgs.overview_body_en
   const visionCms   = (lang === 'vi' ? aboutImgs.vision_vi  : aboutImgs.vision_en)  || t.vision_body
@@ -215,22 +222,17 @@ export default function GioiThieu() {
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {[
-              { n: 1, span: 'md:col-span-2', h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Bộ sưu tập gia vị xuất khẩu' : 'Premium spice collection' },
-              { n: 2, span: '',              h: 'h-56 md:h-72', cap: lang === 'vi' ? 'Nghệ Tây Nguyên' : 'Highland Turmeric' },
-              { n: 3, span: '',              h: 'h-56',          cap: lang === 'vi' ? 'Quế Văn Yên' : 'Van Yen Cinnamon' },
-              { n: 4, span: '',              h: 'h-56',          cap: lang === 'vi' ? 'Hồi Lạng Sơn' : 'Lang Son Star Anise' },
-              { n: 5, span: 'md:col-span-2', h: 'h-56',          cap: lang === 'vi' ? 'Kiểm soát chất lượng' : 'Quality control process' },
-            ].map((item, i) => (
-              <div key={i} className={`${item.span} relative group overflow-hidden rounded-lg`}>
+            {galleryList.map((url, i) => (
+              <div
+                key={i}
+                className={`relative group overflow-hidden rounded-lg ${i === 0 ? 'md:col-span-2 h-56 md:h-72' : i === galleryList.length - 1 && galleryList.length % 3 === 2 ? 'md:col-span-2 h-56' : 'h-56'}`}
+              >
                 <img
-                  src={galleryImg(item.n)}
-                  alt={item.cap}
-                  className={`w-full ${item.h} object-cover group-hover:scale-105 transition-transform duration-500`}
+                  src={url}
+                  alt=""
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <span className="text-white text-sm font-semibold">{item.cap}</span>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
             ))}
           </div>

@@ -51,6 +51,11 @@ if (!fs.existsSync(dbPath)) {
       UNIQUE(page, key)
     );
   `)
+  // Migrate: add content_en to news if missing
+  const newsCols = _db.prepare('PRAGMA table_info(news)').all()
+  if (newsCols.length && !newsCols.find(c => c.name === 'content_en')) {
+    _db.exec("ALTER TABLE news ADD COLUMN content_en TEXT DEFAULT ''")
+  }
   const adminExists = _db.prepare('SELECT id FROM admins WHERE username = ?').get('admin')
   if (!adminExists) {
     const bcrypt = require('bcryptjs')

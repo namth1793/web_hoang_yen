@@ -50,6 +50,7 @@ export default function TinTucDetail() {
 
   const displayTitle = lang === 'en' && article.title_en ? article.title_en : article.title
   const displaySummary = lang === 'en' && article.summary_en ? article.summary_en : article.summary
+  const displayContent = lang === 'en' && article.content_en ? article.content_en : article.content || ''
 
   return (
     <div>
@@ -90,17 +91,16 @@ export default function TinTucDetail() {
                 )}
 
                 {(() => {
-                  const content = article.content || ''
-                  const hasHtml = /<[a-z][\s\S]*>/i.test(content)
+                  const hasHtml = /<[a-z][\s\S]*>/i.test(displayContent)
                   if (hasHtml) {
-                    const html = content
+                    const html = displayContent
                       .replace(/<h3>/g, '<h3 style="color:#4A2C17;font-weight:700;font-size:1.1rem;margin-top:1.5rem;margin-bottom:0.5rem;">')
                       .replace(/<ul>/g, '<ul style="list-style-type:disc;padding-left:1.5rem;margin-bottom:1rem;">')
                       .replace(/<li>/g, '<li style="margin-bottom:0.5rem;">')
                       .replace(/<strong>/g, '<strong style="color:#1a1a1a;">')
                     return <div className="text-gray-700 leading-relaxed text-[15px]" style={{ lineHeight: '1.9' }} dangerouslySetInnerHTML={{ __html: html }} />
                   }
-                  return <div className="text-gray-700 leading-relaxed text-[15px]" style={{ lineHeight: '1.9', whiteSpace: 'pre-line' }}>{content}</div>
+                  return <div className="text-gray-700 leading-relaxed text-[15px]" style={{ lineHeight: '1.9', whiteSpace: 'pre-line' }}>{displayContent}</div>
                 })()}
 
                 <div className="mt-8 pt-6 border-t border-gray-100 flex items-center gap-3">

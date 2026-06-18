@@ -38,6 +38,7 @@ db.exec(`
     summary TEXT,
     summary_en TEXT DEFAULT '',
     content TEXT,
+    content_en TEXT DEFAULT '',
     image TEXT,
     author TEXT DEFAULT 'ARTOCA',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP

@@ -104,13 +104,13 @@ module.exports = (db) => {
   })
 
   router.post('/news', auth, (req, res) => {
-    const { title, title_en, slug, category, summary, summary_en, content, image, author } = req.body
+    const { title, title_en, slug, category, summary, summary_en, content, content_en, image, author } = req.body
     if (!title || !slug) return res.status(400).json({ error: 'Thiếu tiêu đề hoặc slug' })
     try {
       const r = db.prepare(
-        `INSERT INTO news (title, title_en, slug, category, summary, summary_en, content, image, author)
-         VALUES (?,?,?,?,?,?,?,?,?)`
-      ).run(title, title_en || '', slug, category || 'tin-cong-ty', summary || '', summary_en || '', content || '', image || '', author || 'ARTOCA')
+        `INSERT INTO news (title, title_en, slug, category, summary, summary_en, content, content_en, image, author)
+         VALUES (?,?,?,?,?,?,?,?,?,?)`
+      ).run(title, title_en || '', slug, category || 'tin-cong-ty', summary || '', summary_en || '', content || '', content_en || '', image || '', author || 'ARTOCA')
       res.json({ success: true, id: r.lastInsertRowid })
     } catch {
       res.status(400).json({ error: 'Slug đã tồn tại' })
@@ -118,11 +118,11 @@ module.exports = (db) => {
   })
 
   router.put('/news/:id', auth, (req, res) => {
-    const { title, title_en, slug, category, summary, summary_en, content, image, author } = req.body
+    const { title, title_en, slug, category, summary, summary_en, content, content_en, image, author } = req.body
     try {
       db.prepare(
-        `UPDATE news SET title=?, title_en=?, slug=?, category=?, summary=?, summary_en=?, content=?, image=?, author=? WHERE id=?`
-      ).run(title, title_en || '', slug, category, summary || '', summary_en || '', content || '', image || '', author || 'ARTOCA', req.params.id)
+        `UPDATE news SET title=?, title_en=?, slug=?, category=?, summary=?, summary_en=?, content=?, content_en=?, image=?, author=? WHERE id=?`
+      ).run(title, title_en || '', slug, category, summary || '', summary_en || '', content || '', content_en || '', image || '', author || 'ARTOCA', req.params.id)
       res.json({ success: true })
     } catch {
       res.status(400).json({ error: 'Slug đã tồn tại' })

@@ -21,7 +21,7 @@ export default function AdminNewsForm() {
 
   const [form, setForm] = useState({
     title: '', title_en: '', slug: '', category: 'tin-cong-ty',
-    summary: '', summary_en: '', content: '', image: '', author: 'ARTOCA'
+    summary: '', summary_en: '', content: '', content_en: '', image: '', author: 'ARTOCA'
   })
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -37,8 +37,8 @@ export default function AdminNewsForm() {
             title: item.title || '', title_en: item.title_en || '',
             slug: item.slug || '', category: item.category || 'tin-cong-ty',
             summary: item.summary || '', summary_en: item.summary_en || '',
-            content: item.content || '', image: item.image || '',
-            author: item.author || 'ARTOCA'
+            content: item.content || '', content_en: item.content_en || '',
+            image: item.image || '', author: item.author || 'ARTOCA'
           })
         })
         .catch(() => navigate('/admin/login'))
@@ -190,8 +190,12 @@ export default function AdminNewsForm() {
                     className={`${INPUT} resize-none`}
                     placeholder="Short description shown on news listing..." />
                 </div>
-                <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
-                  <p>💡 Nội dung bài viết (content) dùng chung cho cả VI và EN. Chỉ tiêu đề và tóm tắt có bản dịch riêng.</p>
+                <div>
+                  <label className={LABEL}>Article Content (EN)</label>
+                  <textarea rows={14} value={form.content_en} onChange={set('content_en')}
+                    className={`${INPUT} resize-y text-sm leading-relaxed`}
+                    placeholder={'Enter article content in English...\n\nPress Enter for new line.\n\nWebsite will display exactly as typed here.'} />
+                  <p className="text-xs text-gray-400 mt-1">Plain text – press Enter for new line. Leave empty to fall back to Vietnamese content.</p>
                 </div>
               </>
             )}
