@@ -98,6 +98,46 @@ module.exports = (db) => {
     res.json({ success: true })
   })
 
+  // ─── CATEGORIES ───────────────────────────────────────
+  router.get('/categories', auth, (req, res) => {
+    res.json(db.prepare('SELECT * FROM categories ORDER BY sort_order ASC, id ASC').all())
+  })
+
+  router.post('/categories', auth, (req, res) => {
+    const { slug, name, name_en, sort_order } = req.body
+    if (!slug || !name) return res.status(400).json({ error: 'Thiếu slug hoặc tên' })
+    try {
+      const r = db.prepare(
+        'INSERT INTO categories (slug, name, name_en, sort_order) VALUES (?,?,?,?)'
+      ).run(slug, name, name_en || '', sort_order || 0)
+      res.json({ success: true, id: r.lastInsertRowid })
+    } catch {
+      res.status(400).json({ error: 'Slug đã tồn tại' })
+    }
+  })
+
+  router.put('/categories/:id', auth, (req, res) => {
+    const { slug, name, name_en, sort_order } = req.body
+    if (!slug || !name) return res.status(400).json({ error: 'Thiếu slug hoặc tên' })
+    try {
+      db.prepare(
+        'UPDATE categories SET slug=?, name=?, name_en=?, sort_order=? WHERE id=?'
+      ).run(slug, name, name_en || '', sort_order || 0, req.params.id)
+      res.json({ success: true })
+    } catch {
+      res.status(400).json({ error: 'Slug đã tồn tại' })
+    }
+  })
+
+  router.delete('/categories/:id', auth, (req, res) => {
+    const cat = db.prepare('SELECT slug FROM categories WHERE id = ?').get(req.params.id)
+    if (!cat) return res.status(404).json({ error: 'Không tìm thấy' })
+    const usedBy = db.prepare('SELECT COUNT(*) as c FROM products WHERE category = ?').get(cat.slug).c
+    if (usedBy > 0) return res.status(400).json({ error: `Danh mục đang được dùng bởi ${usedBy} sản phẩm` })
+    db.prepare('DELETE FROM categories WHERE id = ?').run(req.params.id)
+    res.json({ success: true })
+  })
+
   // ─── NEWS ─────────────────────────────────────────────
   router.get('/news', auth, (req, res) => {
     res.json(db.prepare('SELECT * FROM news ORDER BY created_at DESC').all())

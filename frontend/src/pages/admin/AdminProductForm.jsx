@@ -32,7 +32,8 @@ export default function AdminProductForm() {
     moisture: '', admixture: '', oil: '',
     unit: 'Tấn / MT', origin: '',
   })
-  const [gallery, setGallery] = useState([])   // string[]
+  const [gallery, setGallery] = useState([])
+  const [categories, setCategories] = useState([])
   const [uploadingMain, setUploadingMain] = useState(false)
   const [uploadingGallery, setUploadingGallery] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -40,6 +41,10 @@ export default function AdminProductForm() {
   const [tab, setTab] = useState('vi')
   const mainFileRef = useRef()
   const galleryFileRef = useRef()
+
+  useEffect(() => {
+    axios.get('/api/categories').then(r => setCategories(r.data)).catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (!isNew) {
@@ -177,10 +182,14 @@ export default function AdminProductForm() {
             <div>
               <label className={LABEL}>Danh mục</label>
               <select value={f('category')} onChange={set('category')} className={`${INPUT} bg-white`}>
-                <option value="que">Quế / Cinnamon</option>
-                <option value="hoi">Hồi / Star Anise</option>
-                <option value="gung">Gừng / Ginger</option>
-                <option value="nghe">Nghệ / Turmeric</option>
+                {categories.length > 0
+                  ? categories.map(c => (
+                      <option key={c.slug} value={c.slug}>
+                        {c.name}{c.name_en ? ` / ${c.name_en}` : ''}
+                      </option>
+                    ))
+                  : <option value="">-- Chưa có danh mục --</option>
+                }
               </select>
             </div>
             <div>

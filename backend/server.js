@@ -50,7 +50,24 @@ if (!fs.existsSync(dbPath)) {
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       UNIQUE(page, key)
     );
+    CREATE TABLE IF NOT EXISTS categories (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug TEXT UNIQUE NOT NULL,
+      name TEXT NOT NULL,
+      name_en TEXT DEFAULT '',
+      sort_order INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `)
+  // Seed default categories if table is empty
+  const catCount = _db.prepare('SELECT COUNT(*) as c FROM categories').get().c
+  if (catCount === 0) {
+    const insertCat = _db.prepare('INSERT OR IGNORE INTO categories (slug, name, name_en, sort_order) VALUES (?,?,?,?)')
+    insertCat.run('que', 'Quế', 'Cinnamon', 1)
+    insertCat.run('hoi', 'Hồi', 'Star Anise', 2)
+    insertCat.run('gung', 'Gừng', 'Ginger', 3)
+    insertCat.run('nghe', 'Nghệ', 'Turmeric', 4)
+  }
   // Migrate: add _en columns to news if missing
   const newsCols = _db.prepare('PRAGMA table_info(news)').all().map(c => c.name)
   if (newsCols.length && !newsCols.includes('title_en')) {
@@ -84,6 +101,10 @@ if (process.env.RESEND_API_KEY) {
 }
 
 // ─── PUBLIC ROUTES ────────────────────────────────────────
+
+app.get('/api/categories', (req, res) => {
+  res.json(db.prepare('SELECT * FROM categories ORDER BY sort_order ASC, id ASC').all())
+})
 
 app.get('/api/content/:page', (req, res) => {
   const rows = db.prepare('SELECT key, value FROM page_content WHERE page = ?').all(req.params.page)

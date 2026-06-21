@@ -20,6 +20,7 @@ import AdminContacts from './pages/admin/AdminContacts'
 import AdminProducts from './pages/admin/AdminProducts'
 import AdminProductForm from './pages/admin/AdminProductForm'
 import AdminImages from './pages/admin/AdminImages'
+import AdminCategories from './pages/admin/AdminCategories'
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="products/:id" element={<AdminProductForm />} />
+          <Route path="categories" element={<AdminCategories />} />
           <Route path="images" element={<AdminImages />} />
           <Route path="news" element={<AdminNews />} />
           <Route path="news/:id" element={<AdminNewsForm />} />

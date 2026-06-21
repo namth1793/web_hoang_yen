@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { FiMenu, FiX, FiLogOut, FiGrid, FiFileText, FiImage, FiMail, FiEdit3, FiExternalLink, FiPackage } from 'react-icons/fi'
+import { FiMenu, FiX, FiLogOut, FiGrid, FiFileText, FiImage, FiMail, FiEdit3, FiExternalLink, FiPackage, FiTag } from 'react-icons/fi'
 
 const navItems = [
   { to: '/admin', label: 'Dashboard', icon: <FiGrid size={16} />, end: true },
   { to: '/admin/products', label: 'Sản Phẩm', icon: <FiPackage size={16} /> },
+  { to: '/admin/categories', label: 'Danh Mục', icon: <FiTag size={16} /> },
   { to: '/admin/news', label: 'Tin Tức', icon: <FiFileText size={16} /> },
   { to: '/admin/images', label: 'Hình Ảnh', icon: <FiImage size={16} /> },
   { to: '/admin/banners', label: 'Banners', icon: <FiImage size={16} /> },
