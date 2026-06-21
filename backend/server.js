@@ -51,9 +51,15 @@ if (!fs.existsSync(dbPath)) {
       UNIQUE(page, key)
     );
   `)
-  // Migrate: add content_en to news if missing
-  const newsCols = _db.prepare('PRAGMA table_info(news)').all()
-  if (newsCols.length && !newsCols.find(c => c.name === 'content_en')) {
+  // Migrate: add _en columns to news if missing
+  const newsCols = _db.prepare('PRAGMA table_info(news)').all().map(c => c.name)
+  if (newsCols.length && !newsCols.includes('title_en')) {
+    _db.exec("ALTER TABLE news ADD COLUMN title_en TEXT DEFAULT ''")
+  }
+  if (newsCols.length && !newsCols.includes('summary_en')) {
+    _db.exec("ALTER TABLE news ADD COLUMN summary_en TEXT DEFAULT ''")
+  }
+  if (newsCols.length && !newsCols.includes('content_en')) {
     _db.exec("ALTER TABLE news ADD COLUMN content_en TEXT DEFAULT ''")
   }
   const adminExists = _db.prepare('SELECT id FROM admins WHERE username = ?').get('admin')

@@ -47,7 +47,7 @@ export default function AdminNewsForm() {
 
   const handleTitleChange = (e) => {
     const title = e.target.value
-    setForm(f => ({ ...f, title, slug: isNew ? toSlug(title) : f.slug }))
+    setForm(f => ({ ...f, title, slug: toSlug(title) }))
   }
 
   const handleUpload = async (e) => {
